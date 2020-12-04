@@ -1,10 +1,11 @@
-const framework = require('./framework')();
+import framework from './framework.js';
 
+console.log('start', framework.registry())
 
-console.log('a', framework.registry())
 framework.register('db', () => 'I am the database');
-framework.registerController('kontroller');
+console.log('db registered', framework.registry())
 
-console.log('x', framework.registry())
+await framework.registerController('kontroller');
+console.log('controller registered', framework.registry())
 
-
+framework.registry().controller()

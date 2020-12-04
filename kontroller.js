@@ -1,4 +1,8 @@
-const registry = require('./framework')().registry();
+import registry from './framework.js';
 
-console.log('---->', {db: registry.db})
+export default function controller() {
+  console.log('->>>> controller called')
+
+  console.log('I have access to db', registry.registry().db())
+}
 

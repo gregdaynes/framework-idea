@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 
 const registry = {};
 
@@ -6,15 +6,25 @@ function register(key, operator) {
   registry[key] = operator;
 }
 
-function registerController(controllerName) {
-  const x = path.join(__dirname, controllerName + '.js');
-  require(x);
+function getPath(file) {
+  const base = new URL(import.meta.url).pathname;
+  const dir = path.dirname(base)
+  const newFilePath = path.join(dir, file + '.js')
+
+  return newFilePath;
 }
 
-module.exports = function () {
-  return {
-    register,
-    registerController,
-    registry: () => registry
-  }
+async function registerController(controllerName) {
+  const controllerPath = getPath(controllerName);
+
+  const controller = await import(controllerPath)
+    .then(module => module.default)
+
+  register('controller', controller)
+}
+
+export default {
+  register,
+  registerController,
+  registry: () => registry
 }
