@@ -3,7 +3,7 @@ import path from 'path';
 const registry = {};
 
 function register(key, operator) {
-  registry[key] = operator;
+  registry[key] = operator
 }
 
 function getPath(file) {
@@ -23,8 +23,16 @@ async function registerController(controllerName) {
   register('controller', controller)
 }
 
-export default {
-  register,
-  registerController,
-  registry: () => registry
-}
+Object.defineProperty(registry, 'register', {
+  value: register,
+  writeable: false,
+  enumerable: false
+})
+
+Object.defineProperty(registry, 'registerController', {
+  value: registerController,
+  writeable: false,
+  enumerable: false
+})
+
+export default registry
