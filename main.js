@@ -1,18 +1,18 @@
-import framework from './framework.js';
+import lib from './lib/index.js'
+import data from './middleware/data.js'
+import error from './middleware/error.js'
+import User from './components/User.js'
 
-console.log('start', framework)
+// register tools in container
+lib.register('db', function db() {return 'I am the database'});
 
-framework.register('db', function db() {return 'I am the database'});
-console.log('db registered', framework)
-framework.register('router', {});
+// pre api middlware
+lib.mount(data)
 
-await framework.register('controller', 'defaultController');
-console.log('controller registered', framework)
+// mount controllers
+lib.mount(User())
 
-await framework.register('controller', 'firstController');
-console.log('controller registered', framework)
+// post api middleware
+lib.mount(error())
 
-await framework.register('controller', 'kontroller', {name: 'aliasedController'});
-console.log(framework);
-
-export default framework;
+export default lib;
