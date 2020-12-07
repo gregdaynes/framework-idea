@@ -1,9 +1,11 @@
 import r from 'lib'
 
-const error = () =>
-  async (err, req, res, next) => {
+function error() {
+  return async function error(err, req, res, next) {
     r.logger.error(err)
+
     res.send('oops');
   }
+}
 
-export default error
+export default error;

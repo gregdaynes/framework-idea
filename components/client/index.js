@@ -10,7 +10,7 @@ export default function User() {
 
 // Controllers
 async function root(req, res) {
-  res.data = {...req.data, controller: 'user/'}
+  res.data = {...req.data, controller: 'client/'}
 }
 
 // middlware
